@@ -1,24 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import NotFound from "./pages/404";
+import Home from "./pages/home";
+import Login from "./pages/login";
+import Singup from "./pages/register";
 
 function App() {
+  
+  const authUser = JSON.parse(localStorage.getItem('auth'));
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <React.Fragment>
+        <Router>
+          <Routes>
+            {authUser === true ? (
+              <Route path="/" element={<Home />} />
+            ) : (
+              <Route path="/" element={<Login />} />
+            )}
+            <Route path="login" element={<Login />} />
+            <Route path="singup" element={<Singup />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Router>
+    </React.Fragment>
   );
 }
 
